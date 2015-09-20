@@ -14,7 +14,7 @@
 
         this.removeItem = function(element){
           if (gridstack) {
-            return gridstack.remove_widget(element);
+            return gridstack.remove_widget(element, false);
           }
           return null;
         };
@@ -57,7 +57,10 @@
           link: function (scope, element, attrs, controller) {
               attrs.$observe('gridstackItem', function(val) {
                 var widget = controller.addItem(element, attrs.gsX, attrs.gsY, attrs.gsWidth, attrs.gsHeight, scope.$eval(attrs.gsAutoPosition));
-              })
+              });
+              element.bind('$destroy', function() {
+                controller.removeItem(element);
+              });
           }
 
       };
